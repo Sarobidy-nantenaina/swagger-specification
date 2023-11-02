@@ -1,0 +1,77 @@
+openapi: 3.0.3
+info: 
+  title: Revision
+  version: 1.0.0
+  summary: API for managing a library
+servers: 
+  - url: https://revision.com
+paths: 
+  /books:
+    get:
+      summary: Get all books
+      description: Return all books 
+      operationId: getBooks
+      parameters:
+        - in: query
+          name: bookName
+          description: Filter the return books by bookName
+          riquired: false
+          schema:
+            type: string
+      responses:
+        200:
+          description: The returned books
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Book'
+    put:
+      summary: Create or update list of books
+      operationId: crupdateBooks
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: object
+                properties:
+                  id:
+                    type: string
+                  bookName:
+                    type: string
+      responses:
+        200:
+          description: The returned books
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Book'
+components:
+  schemas:
+    Book:
+      type: object
+      properties:
+        id:
+          type: string
+        bookName:
+          type: string
+        author:
+          type: string
+        pageNumbers:
+          type: integer
+        releaseDate:
+          type: string
+          format: date
+        topic:
+          $ref: '#/components/schemas/topic'
+    topic:
+      type: string
+      enum:
+        - ROMANCE
+        - COMEDY
+        - OTHER
